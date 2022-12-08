@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
-
+db.init_app(app)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -51,9 +51,11 @@ posts = [
     }
 ]
 
+with app.app_context():
+    db.create_all()
 
 
-@app.route("/register", methods=['GET', 'POST'])
+@app.route("/")
 def home():
     return render_template('home.html', posts=posts)
 
@@ -81,15 +83,12 @@ def login():
             flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html', title='Login', form=form)
 
-
-    app.run(debug=True)
+@app.route('/about')
 def about():
     return render_template('about.html', title='About Us')
 
 
 if __name__ == "__main__":
 
-    with app.app_context():
-        db.create_all()
     
     app.run(debug=True)
