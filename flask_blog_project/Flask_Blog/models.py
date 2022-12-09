@@ -1,5 +1,5 @@
 from datetime import datetime
-from Flask_Blog import db
+from Flask_Blog import db, login_manager
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
