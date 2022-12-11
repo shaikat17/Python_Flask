@@ -29,7 +29,7 @@ class RegistrationForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = StringField(
         'Email Address', [validators.Length(min=6, max=35), validators.Email()])
-    password = PasswordField('New Password', [
+    password = PasswordField('Password', [
         validators.DataRequired()])
     remember = BooleanField('Remember Password')
     submit = SubmitField('Login')

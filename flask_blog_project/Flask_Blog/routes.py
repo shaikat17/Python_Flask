@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect
 from Flask_Blog import app, db, bcrypt
 from Flask_Blog.forms import RegistrationForm, LoginForm
 from Flask_Blog.models import User, Post
-from flask_login import login_user, current_user
+from flask_login import login_user, current_user, logout_user
 
 posts = [
     {
@@ -63,3 +63,8 @@ def login():
 @app.route('/about')
 def about():
     return render_template('about.html', title='About Us')
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
