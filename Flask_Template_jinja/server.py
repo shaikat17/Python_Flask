@@ -1,5 +1,5 @@
 import requests
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for
 
 app = Flask(__name__)
 
@@ -17,6 +17,23 @@ def guess(name):
     # print(gender.get('gender'), age.get('age'))
     return render_template('index.html',prop={'name': name,
                                               'age': age.get('age'), 'gender': gender.get('gender')})
+
+@app.route('/blog')
+def blog():
+    blog_url = 'https://jsonplaceholder.typicode.com/posts'
+    response = requests.get(blog_url)
+    all_posts = response.json()
+
+    return render_template('blog.html', posts=all_posts)
+
+@app.route('/post/<index>')
+def show_post(index):
+    blog_url = 'https://jsonplaceholder.typicode.com/posts/'+index
+    response = requests.get(blog_url)
+    post = response.json()
+    print(post)
+
+    return render_template('post.html', post=post)
 
 if __name__ == '__main__':
     app.run(debug=True)
